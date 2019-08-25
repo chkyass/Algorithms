@@ -46,10 +46,22 @@ TEST_CASE( "Test top", "[priority queue]")
 
 }
 
-/*int main()
+TEST_CASE( "Test min heap top and pop", "[priority queue]")
 {
-  std::vector<std::string> a{"a"};
-  priority_queue<int> p;
-  p.isEmpty();
-  return 0;
-}*/
+  std::vector<int> a{1,3,6,2,-10};
+  priority_queue<int> p(a, -1);
+  p.add(2);
+  p.add(6);
+  REQUIRE(p.pop() == -10);
+  REQUIRE(p.top() == 1);
+
+}
+
+TEST_CASE( "Test min heap add", "[priority queue]")
+{
+  std::vector<int> a{1};
+  priority_queue<int> p(a, -1);
+  p.add(2);
+  p.add(3);
+  REQUIRE(p.top() == 3);
+}
