@@ -63,5 +63,5 @@ TEST_CASE( "Test min heap add", "[priority queue]")
   priority_queue<int> p(a, -1);
   p.add(2);
   p.add(3);
-  REQUIRE(p.top() == 3);
+  REQUIRE(p.top() == 1);
 }
