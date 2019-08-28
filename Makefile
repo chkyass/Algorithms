@@ -8,12 +8,12 @@ INC_DIR = include
 
 .PHONY: clean
 
-test_priority_queue.o: $(TEST_DIR)/test_priority_queue.cpp
-	$(CC) $(OPTIONS) -c $< -o $(BUILD_DIR)/$@
+priority_queue:
+	$(CC) $(OPTIONS) $(TEST_DIR)/test_priority_queue.cpp -o $@.bin
 
-test: test_priority_queue.o
-	$(CC) $(OPTIONS) $(addprefix $(BUILD_DIR)/,$^) -o $@.bin
+bst:
+	$(CC) $(OPTIONS) $(TEST_DIR)/test_bst.cpp -o $@.bin
 
 clean:
-	rm test.bin
+	rm *.bin
 	rm -f $(BUILD_DIR)/*
