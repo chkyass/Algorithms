@@ -19,8 +19,8 @@ class bst
 
   public:
     bst(E e, bst *left=nullptr, bst *right=nullptr);
-    bool contain(const E&);
-    size_t size();
+    bool contain(const E&) const;
+    size_t size() const;
     virtual void insert(E);
     virtual ~bst();
     void operator=(bst) = delete;
@@ -78,7 +78,7 @@ template <class E> void bst<E>::insert(E e)
 /*
   Use insertNode with a null node to detemine if the key is present
 */
-template <class E> bool bst<E>::contain(const E &key)
+template <class E> bool bst<E>::contain(const E &key) const
 {
   return !insertNode(this, key, nullptr);
 }
@@ -100,7 +100,7 @@ template <class E> bst<E>::~bst()
   }
 }
 
-template<class E> size_t bst<E>::size()
+template<class E> size_t bst<E>::size() const
 {
   return size_;
 }

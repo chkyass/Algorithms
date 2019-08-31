@@ -35,6 +35,7 @@ public:
     E top() const;
     E pop();
     void add(E);
+    void replace(E, E);
     bool isEmpty() const;
 };
 
@@ -79,8 +80,9 @@ template <class E> priority_queue<E>::priority_queue(char max): max_(max)
 
 /*  
     Start from size/2 because above all nodes are leaves
-    Start from end because algorithm based on the fact that the subtree
-    always respect the invariant 
+    Start from end bring down node until its children are smaller
+    Doing this at each new call to move a node its two subtree respect
+    the invariant
 */
 template <class E> void priority_queue<E>::build_heap()
 {  
@@ -91,7 +93,7 @@ template <class E> void priority_queue<E>::build_heap()
 }
 
 /*
-    move up a node until all his children are smaller
+    move down a node until its children are smaller
 */
 template <class E> void priority_queue<E>::move_node(size_t i)
 {
@@ -148,9 +150,8 @@ template <class E> void priority_queue<E>::add(E e)
 {
     // add the element at the end
     binary_heap_.push_back(max_ * e);
-    size_++;
     
-    size_t new_index = size_- 1;
+    size_t new_index = size_;
     // index of the parent of the last element
     size_t parent_index = new_index/2;
 
@@ -159,6 +160,24 @@ template <class E> void priority_queue<E>::add(E e)
         std::swap(binary_heap_[parent_index], binary_heap_[new_index]);
         new_index = parent_index;
         parent_index = new_index/2;
+    }
+
+    size_++;
+}
+
+/*
+    replace an element in the heap if it exists
+    otherwise does nothing
+*/
+template <class E> void priority_queue<E>::replace(E old_n, E new_n)
+{
+    for(size_t i = 0; i < size_; i++)
+    {
+        if(binary_heap_[i] == old_n)
+        {
+            binary_heap_[i] = new_n;
+            move_node(i);
+        }
     }
 }
 

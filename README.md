@@ -9,5 +9,3 @@
   - O(1) to top the min or the max
   - O(log n) to top the min or the max
   - O(n) to replace element
-
-   

@@ -9,7 +9,7 @@ TEST_CASE("Test contain singleton", "[bst]")
   REQUIRE(tree.size() == 1);
 }
 
-TEST_CASE("Test not contain songleton", "[bst]")
+TEST_CASE("Test not contain singleton", "[bst]")
 {
   bst<int> tree(0);
   REQUIRE(tree.contain(1) == false);

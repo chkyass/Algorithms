@@ -57,6 +57,19 @@ TEST_CASE( "Test min heap top and pop", "[priority queue]")
 
 }
 
+TEST_CASE("TEST replace element", "[priority queue]")
+{
+  std::vector<int>a{1,2,3};
+  priority_queue<int> p(a);
+  REQUIRE(p.top() == 3);
+  p.replace(3, 0);
+  REQUIRE(p.top() == 2);
+  p.replace(1, -1);
+  REQUIRE(p.top() == 2);
+  p.replace(2, 10);
+  REQUIRE(p.pop() == 10);
+}
+
 TEST_CASE( "Test min heap add", "[priority queue]")
 {
   std::vector<int> a{1};
