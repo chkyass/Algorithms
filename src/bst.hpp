@@ -1,34 +1,42 @@
 #ifndef bst_h
 #define bst_h
 
-#include <memory>
 #include <iostream>
+
+template<class K>
+struct node{
+      node *left_;
+      node *right_;
+      K key_;
+};
 
 /*
   invariant: left subtree is smaller, right subtree is bigger
 */
-template <class E>
+template <class K, class N=node<K> >
 class bst
 {
-  private:
-    bst* left_;
-    bst* right_;
-    E key_;
-    size_t size_ = 1;
-    bool insertNode(bst*, const E&, bst*);
+    N *left_;
+    N *right_;
+    K key_;
+    size_t size_;
+    bool insertNode(N*, const K&, N*);
+    void leftFirstDelete(N*);
 
   public:
-    bst(E e, bst *left=nullptr, bst *right=nullptr);
-    bool contain(const E&) const;
+    bst(K e, N *left=nullptr, N *right=nullptr);
+    bool contain(const K&);
     size_t size() const;
-    virtual void insert(E);
+    virtual void insert(const K&);
     virtual ~bst();
     void operator=(bst) = delete;
     bst(bst&) = delete;
 };
 
-template <class E> bst<E>::bst(E k, bst* left, bst* right):left_(left), right_(right), key_(k)
-{}
+template <class K, class N> bst<K,N>::bst(K k, N *left, N *right):left_(left), right_(right), key_(k)
+{
+  size_ = 1;
+}
 
 /*
   Implementation of the binary search
@@ -37,7 +45,7 @@ template <class E> bst<E>::bst(E k, bst* left, bst* right):left_(left), right_(r
   and node to insert
   return true the new node is inserted
 */
-template <class E> bool bst<E>::insertNode(bst *node, const E &e, bst *toInsert)
+template <class K, class N> bool bst<K, N>::insertNode(N *node, const K &e, N *toInsert)
 {
   if(e < node->key_)
   {
@@ -47,7 +55,8 @@ template <class E> bool bst<E>::insertNode(bst *node, const E &e, bst *toInsert)
       return true;
     }
     else
-      insertNode(left_, e, toInsert);
+
+      return insertNode(node->left_, e, toInsert);
   }
   else if (e > node->key_)
   {
@@ -57,50 +66,91 @@ template <class E> bool bst<E>::insertNode(bst *node, const E &e, bst *toInsert)
       return true;
     }
     else
-      insertNode(node->right_, e, toInsert);
+      return insertNode(node->right_, e, toInsert);
   }
   return false;
 }
 
 /*
-  wrapper for insertNode
+  wrapper for insertNode. Deal with root insertion case
 */
-template <class E> void bst<E>::insert(E e)
+template <class K, class N> void bst<K, N>::insert(const K &e)
 {
-  bst* newNode = new bst(e);
+
+  size_++;
+
+  if(e == key_)
+    return;
+
+  N* newNode = new N();
+  newNode->key_ = e;
+
+  // select if search will be made on left or right
+  N **first = e < key_ ? &left_ : &right_;
+
+  if (*first == nullptr)
+  {
+    *first = newNode;
+
+  }
   // if the node wasn't inserted because already present free it
-  if(!insertNode(this, e, newNode))
+  else if(!insertNode(*first, e, newNode))
+  {
     delete newNode;
-  else
-    size_++;
+    size_--;
+  }
+
 }
 
 /*
   Use insertNode with a null node to detemine if the key is present
 */
-template <class E> bool bst<E>::contain(const E &key) const
+template <class K, class N> bool bst<K, N>::contain(const K &e)
 {
-  return !insertNode(this, key, nullptr);
+  if(e == key_)
+  {
+    return true ;
+  }
+
+  // select if search is made on left or right
+  N* first = e < key_ ? left_ : right_;
+
+  if( first != nullptr)
+  {
+    return !insertNode(first, e, nullptr);
+  }
+  return false;
 }
 
 /*
   left first search to delete all pointers
 */
-template <class E> bst<E>::~bst()
+template <class K, class N> void bst<K, N>::leftFirstDelete(N* node)
 {
-  if(left_ != nullptr)
+  if(node->left_ != nullptr)
   {
-    left_->~bst();
-    delete left_;
-  }
-  if(right_ != nullptr)
+    leftFirstDelete(node->left_);
+  } 
+  if (node->right_ !=  nullptr)
   {
-    right_->~bst();
-    delete right_;
+    leftFirstDelete(node->right_);   
   }
+  delete node;
 }
 
-template<class E> size_t bst<E>::size() const
+/*
+  left first search to delete all pointers
+*/
+template <class K, class N> bst<K, N>::~bst()
+{
+  if(left_ != nullptr)
+    leftFirstDelete(left_);
+  if(right_ != nullptr)
+    leftFirstDelete(right_);
+  size_ = 0;
+}
+
+template<class K, class N> size_t bst<K, N>::size() const
 {
   return size_;
 }
