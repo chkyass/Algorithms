@@ -16,26 +16,27 @@ struct node{
 template <class K, class N=node<K> >
 class bst
 {
-    N *left_;
-    N *right_;
-    K key_;
+  protected:
+    N *root_;
     size_t size_;
-    bool insertNode(N*, const K&, N*);
+    virtual bool insertNode(N*, const K&, N*);
     void leftFirstDelete(N*);
 
   public:
-    bst(K e, N *left=nullptr, N *right=nullptr);
+    bst(K e);
     bool contain(const K&);
     size_t size() const;
-    virtual void insert(const K&);
+    void insert(const K&);
     virtual ~bst();
     void operator=(bst) = delete;
     bst(bst&) = delete;
 };
 
-template <class K, class N> bst<K,N>::bst(K k, N *left, N *right):left_(left), right_(right), key_(k)
+template <class K, class N> bst<K,N>::bst(K k)
 {
   size_ = 1;
+  root_ = new N();
+  root_->key_ = k;
 }
 
 /*
@@ -76,30 +77,14 @@ template <class K, class N> bool bst<K, N>::insertNode(N *node, const K &e, N *t
 */
 template <class K, class N> void bst<K, N>::insert(const K &e)
 {
-
-  size_++;
-
-  if(e == key_)
-    return;
-
   N* newNode = new N();
   newNode->key_ = e;
 
-  // select if search will be made on left or right
-  N **first = e < key_ ? &left_ : &right_;
-
-  if (*first == nullptr)
-  {
-    *first = newNode;
-
-  }
   // if the node wasn't inserted because already present free it
-  else if(!insertNode(*first, e, newNode))
-  {
+  if(insertNode(root_, e, newNode))
+    size_++;
+  else
     delete newNode;
-    size_--;
-  }
-
 }
 
 /*
@@ -107,19 +92,7 @@ template <class K, class N> void bst<K, N>::insert(const K &e)
 */
 template <class K, class N> bool bst<K, N>::contain(const K &e)
 {
-  if(e == key_)
-  {
-    return true ;
-  }
-
-  // select if search is made on left or right
-  N* first = e < key_ ? left_ : right_;
-
-  if( first != nullptr)
-  {
-    return !insertNode(first, e, nullptr);
-  }
-  return false;
+  return !insertNode(root_, e, nullptr);
 }
 
 /*
@@ -143,10 +116,7 @@ template <class K, class N> void bst<K, N>::leftFirstDelete(N* node)
 */
 template <class K, class N> bst<K, N>::~bst()
 {
-  if(left_ != nullptr)
-    leftFirstDelete(left_);
-  if(right_ != nullptr)
-    leftFirstDelete(right_);
+  leftFirstDelete(root_);
   size_ = 0;
 }
 
