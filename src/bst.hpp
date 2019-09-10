@@ -4,10 +4,11 @@
 #include <iostream>
 
 template<class K>
-struct node{
+struct node {
       node *left_;
       node *right_;
       K key_;
+      node(K k):left_(nullptr), right_(nullptr), key_(k){}
 };
 
 /*
@@ -19,7 +20,7 @@ class bst
   protected:
     N *root_;
     size_t size_;
-    virtual bool insertNode(N*, const K&, N*);
+    bool insertNode(N*, const K&, N*);
     void leftFirstDelete(N*);
 
   public:
@@ -27,16 +28,15 @@ class bst
     bool contain(const K&);
     size_t size() const;
     void insert(const K&);
-    virtual ~bst();
     void operator=(bst) = delete;
     bst(bst&) = delete;
+    virtual ~bst();
+
 };
 
-template <class K, class N> bst<K,N>::bst(K k)
+template <class K, class N> bst<K,N>::bst(K k):root_(new N(k))
 {
   size_ = 1;
-  root_ = new N();
-  root_->key_ = k;
 }
 
 /*
@@ -44,7 +44,7 @@ template <class K, class N> bst<K,N>::bst(K k)
   take the root node of the tree as first paramter
   the key to insert
   and node to insert
-  return true the new node is inserted
+  return true if new node is inserted otherwise false
 */
 template <class K, class N> bool bst<K, N>::insertNode(N *node, const K &e, N *toInsert)
 {
@@ -56,7 +56,6 @@ template <class K, class N> bool bst<K, N>::insertNode(N *node, const K &e, N *t
       return true;
     }
     else
-
       return insertNode(node->left_, e, toInsert);
   }
   else if (e > node->key_)
@@ -77,8 +76,7 @@ template <class K, class N> bool bst<K, N>::insertNode(N *node, const K &e, N *t
 */
 template <class K, class N> void bst<K, N>::insert(const K &e)
 {
-  N* newNode = new N();
-  newNode->key_ = e;
+  N* newNode = new N(e);
 
   // if the node wasn't inserted because already present free it
   if(insertNode(root_, e, newNode))
