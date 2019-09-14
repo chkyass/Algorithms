@@ -37,7 +37,6 @@ TEST_CASE("Test insert", "[bst]")
   REQUIRE(tree.contain(6) == true);
   REQUIRE(tree.contain(7) == true);
   REQUIRE(tree.size() == 8);
-
 }
 
 TEST_CASE("Test insert existing element", "[bst]")

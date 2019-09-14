@@ -14,6 +14,12 @@ priority_queue:
 bst:
 	$(CC) $(OPTIONS) $(TEST_DIR)/test_bst.cpp -o $@.bin
 
+avl:
+	$(CC) $(OPTIONS) -o3 $(TEST_DIR)/test_avl.cpp -o $@.bin
+
+run:
+	./avl.bin
+
 clean:
 	rm *.bin
 	rm -f $(BUILD_DIR)/*
