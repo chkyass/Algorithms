@@ -3,3 +3,6 @@
 build/*.o
 *.bin
 main.cpp
+*dSYM/*
+*.out
+.gitignore
