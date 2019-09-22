@@ -1,4 +1,3 @@
-#define CATCH_CONFIG_MAIN 
 #include "include/catch.hh"
 #include "src/priority_queue.hpp"
 #include <string>
@@ -46,17 +45,6 @@ TEST_CASE( "Test top", "[priority queue]")
 
 }
 
-TEST_CASE( "Test min heap top and pop", "[priority queue]")
-{
-  std::vector<int> a{1,3,6,2,-10};
-  priority_queue<int> p(a, -1);
-  p.add(2);
-  p.add(6);
-  REQUIRE(p.pop() == -10);
-  REQUIRE(p.top() == 1);
-
-}
-
 TEST_CASE("TEST replace element", "[priority queue]")
 {
   std::vector<int>a{1,2,3};
@@ -70,11 +58,3 @@ TEST_CASE("TEST replace element", "[priority queue]")
   REQUIRE(p.pop() == 10);
 }
 
-TEST_CASE( "Test min heap add", "[priority queue]")
-{
-  std::vector<int> a{1};
-  priority_queue<int> p(a, -1);
-  p.add(2);
-  p.add(3);
-  REQUIRE(p.top() == 1);
-}

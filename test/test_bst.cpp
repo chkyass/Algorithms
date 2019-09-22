@@ -1,4 +1,3 @@
-#define CATCH_CONFIG_MAIN 
 #include "include/catch.hh"
 #include "src/bst.hpp"
 
