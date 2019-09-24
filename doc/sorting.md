@@ -10,6 +10,10 @@
 
   #### Quicksort
   - NlogN average. N^2 worst. No extra --> perform well with random data
+  - Worst case if each time we choose the maximum as pivot --> end up with a tree of height N
+  - To avoid worst case by choosing the middle of three as pivot
+  - partionne start from left. i at -1 and j at 0. i point to the rightest smaller that=n pivot and j look for element smaller than pivot
+  - when smaller found i incremented to point to the leftest bigger than pivot and swap a[i] and a[j] 
 
 ### unstable sort
 #### stl::sort
