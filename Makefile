@@ -25,6 +25,9 @@ avl:
 sort: 
 	$(CC) $(OPTIONS)  $(TEST_DIR)/test_sort.cpp -o $(BIN_DIR)/$@.bin
 
+bench_sort:
+	$(CC) -std=c++11 -O3 -L/usr/local/Cellar/boost/1.71.0/lib  -lpthread -lbenchmark benchmark/$@.cpp -o benchmark/$@.bin
+
 run:
 	./sort.bin
 
