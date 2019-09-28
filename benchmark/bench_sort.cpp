@@ -46,6 +46,19 @@ static void BM_radixsort(benchmark::State& state) {
   }
 }
 
+static void BM_quicksort(benchmark::State& state) {
+  sort<int> s;
+
+  for (auto _ : state)
+  {
+    state.PauseTiming();
+    for (auto i = 0; i < state.range(0); i++)
+      input[i] = getRandomNumber();
+    state.ResumeTiming();
+    s.quickSort(input.data(), state.range(0));
+  }
+}
+
 static void BM_stlqsort(benchmark::State& state) {
   for (auto _ : state)
   {
@@ -125,6 +138,7 @@ static void BM_blockindirectsort(benchmark::State& state) {
 
 BENCHMARK(BM_mergesort)->Range(1000, SIZE);
 BENCHMARK(BM_radixsort)->Range(1000, SIZE);
+BENCHMARK(BM_quicksort)->Range(1000, SIZE);
 BENCHMARK(BM_stlqsort)->Range(1000, SIZE);
 BENCHMARK(BM_spreadsort)->Range(1000, SIZE);
 BENCHMARK(BM_boostqsort)->Range(1000, SIZE);
