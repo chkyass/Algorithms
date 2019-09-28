@@ -15,6 +15,18 @@
   - partionne start from left. i at -1 and j at 0. i point to the rightest smaller that=n pivot and j look for element smaller than pivot
   - when smaller found i incremented to point to the leftest bigger than pivot and swap a[i] and a[j] 
 
+  #### radixsort
+  - work on unsigned integers
+  - (N + K)*d --> K is the size of th array in counting sort --> d the number of passe to sort everything
+  - k = 2^r --> implemented with r=8 --> k=255
+  - d = log2(max in array)/r
+  - implementation worst casr complexity = (N+256)*4
+  - sort each byte from least significant with counting sort
+  - log2 return 0 based index of most significant bit
+  - shift is 1 based index --> adapt the indexes
+
+
+
 ### unstable sort
 #### stl::sort
   - fastest unstable sort for small arrays (under 4000 integer entris). Use insertion sort for small arrays otherwise quicksort. If the choice of pivots is bad, it's detected and fallback to heapsort.
