@@ -28,8 +28,8 @@ sort:
 bench_sort:
 	$(CC) -std=c++11 -O3 -L/usr/local/Cellar/boost/1.71.0/lib  -lpthread -lbenchmark benchmark/$@.cpp -o benchmark/$@.bin
 
-run:
-	./sort.bin
+hashtable:
+	$(CC) $(OPTIONS)  $(TEST_DIR)/test_hashtable.cpp -o $(BIN_DIR)/$@.bin; ./$(BIN_DIR)/$@.bin
 
 clean:
 	rm bin/*.bin
