@@ -1,8 +1,9 @@
 CC = g++
 WARNINGS = -Wall -Wextra -Wpedantic
 OPTIMIZATION = -O3
-TEST_LINK = include/test_main.o
-OPTIONS = -std=c++11 -I./ $(WARNINGS) $(OPTIMIZATION) $(TEST_LINK)
+LINKS = include/test_main.o
+ERRORS = -ferror-limit=2
+OPTIONS = -std=c++11 -I./ -ferror-limit=2 $(ERRORS) $(WARNINGS) $(OPTIMIZATION) $(LINKS)
 BIN_DIR = bin
 TEST_DIR = test
 SRC_DIR = src
@@ -30,6 +31,9 @@ bench_sort:
 
 hashtable:
 	$(CC) $(OPTIONS)  $(TEST_DIR)/test_hashtable.cpp -o $(BIN_DIR)/$@.bin; ./$(BIN_DIR)/$@.bin
+
+graph:
+	$(CC) $(OPTIONS)  $(TEST_DIR)/test_graph.cpp -o $(BIN_DIR)/$@.bin ; ./$(BIN_DIR)/$@.bin
 
 clean:
 	rm bin/*.bin
