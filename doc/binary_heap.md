@@ -14,5 +14,3 @@
  ### insert() --> Log N
  - add element at end
  - call heapify on node parents until invariant is respected
-
-TODO lock free queue
