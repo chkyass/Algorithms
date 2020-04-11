@@ -5,7 +5,7 @@
   - avoid the fact that M and the population k share a common factor --> will be hashed to a value that is a multiple of the common factor --> use prime number
 
 ## Extend
-  - each time n = m double m. So we extend the internal table O(n+m+m'), log2(n) time for n insertion and cost of insertion is 1+a(=chain length) the rest of the time --> amortized complexity is O(1)
+  - each time n = m we double m. So we extend the internal table O(n+m+m'), log2(n) time for n insertion and cost of insertion is 1+a(=chain length) the rest of the time --> amortized complexity is O(1)
 
 ## shrink
   - when number of elements is n/4 divide m by 2.
